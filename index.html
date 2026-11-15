@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наши 9 месяцев</title>
+<style>
+:root{--bg:#fff5f6;--card:#fff;--text:#3a2a2e;--muted:#8a7378;--accent:#e0516f;--line:#f0cdd4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1416;--card:#2a1d20;--text:#f6e8ea;--muted:#b49aa0;--accent:#ff7d98;--line:#4a3036;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1416;--card:#2a1d20;--text:#f6e8ea;--muted:#b49aa0;--accent:#ff7d98;--line:#4a3036;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+header{text-align:center;padding:22px 16px 8px}
+h1{margin:0;font-size:26px;color:var(--accent)}
+main{padding:8px 16px 130px;max-width:520px;margin:0 auto}
+.g{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:18px}
+.slide .g{animation:in .28s ease both}
+@keyframes in{from{opacity:0;transform:translateX(var(--dx,0))}to{opacity:1;transform:none}}
+.ph{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer}
+.ph.c1{grid-template-columns:1fr}.ph.c1 img{aspect-ratio:4/5}
+.ph img.w{grid-column:1/-1;aspect-ratio:4/3}
+.cap{padding:14px 16px 16px}
+.cap b{display:block;color:var(--accent);font-size:14px;margin-bottom:6px}
+.cap p{margin:0;font-size:16px;line-height:1.45;white-space:pre-wrap}
+.empty{text-align:center;color:var(--muted);padding:60px 10px}
+.pager{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;align-items:center;gap:22px;background:linear-gradient(transparent,var(--bg) 40%);z-index:8}
+.pager button{width:56px;height:56px;border-radius:50%;border:0;background:var(--accent);color:#fff;font-size:28px;cursor:pointer;line-height:1}
+.pager button:disabled{opacity:.3;cursor:default}
+.pager span{min-width:64px;text-align:center;color:var(--muted);font-size:15px}
+.th{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px}
+.th div{position:relative}
+.th img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block}
+.x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:14px;line-height:1;cursor:pointer}
+.ed{padding:0 10px 10px}
+input[type=text],input[type=date],textarea{width:100%;font:inherit;font-size:15px;padding:9px;margin-top:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text)}
+textarea{min-height:70px;resize:vertical}
+.row{display:flex;gap:8px;margin-top:8px}
+.row button,.row label{flex:1;text-align:center;border:1px solid var(--line);background:none;color:var(--accent);border-radius:8px;padding:9px 4px;font-size:13px;cursor:pointer}
+.add{display:block;text-align:center;padding:16px;border:2px dashed var(--accent);border-radius:14px;color:var(--accent);font-weight:600;cursor:pointer}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);display:none;gap:8px;align-items:center;z-index:9}
+.bar button{border:0;border-radius:999px;padding:12px 16px;font-size:15px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff}
+.bar button.o{background:none;color:var(--accent);border:1px solid var(--line)}
+.bar .st{flex:1;font-size:12px;color:var(--muted)}
+.fab{position:fixed;right:16px;top:calc(12px + env(safe-area-inset-top,0px));width:42px;height:42px;border-radius:50%;border:0;background:var(--accent);color:#fff;font-size:18px;z-index:9;cursor:pointer;display:none}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:20;padding:16px;color:#fff;text-align:center}
+.lb.show{display:flex}
+.lb img{max-width:100%;max-height:78vh;border-radius:10px}
+.lb p{margin:12px 0 0;font-size:14px}
+.nav{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.2);color:#fff;font-size:26px;width:44px;height:44px;border-radius:50%;cursor:pointer}
+.cl{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:14px;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:20px;width:40px;height:40px;border-radius:50%;cursor:pointer}
+.intro{padding:40px 24px;text-align:center}.intro p{margin:0;font-size:20px;line-height:1.65;white-space:pre-wrap}.il{display:block;color:var(--accent);margin:10px 0 0;font-size:14px}
+</style>
+</head>
+<body>
+<header><h1>Наши 9 месяцев</h1></header>
+<main>
+  <div id="slide" class="slide"></div>
+  <div id="list"></div>
+  <label class="add" id="newwrap" style="display:none">+ Новая группа фото<input type="file" id="newg" accept="image/*" multiple="" hidden=""></label>
+</main>
+<div class="pager" id="pager"><button id="gp" aria-label="Назад">‹</button><span id="pg"></span><button id="gn" aria-label="Дальше">›</button></div>
+<div class="bar" id="bar"><span class="st" id="st">Редактирование</span><button class="o" id="exit">Просмотр</button><button id="save">Сохранить</button></div>
+<button class="fab" id="fab" aria-label="Редактировать">✎</button>
+<div class="lb" id="lb"><button class="cl" id="cl">✕</button><button class="nav" id="prev" style="left:8px">‹</button><div id="lbpic"></div><p id="lbcap"></p><button class="nav" id="next" style="right:8px">›</button></div>
+<script type="application/json" id="data">{"groups":[{"d":"2026-03-21","c":"Сатри, це ти перший раз приехала до мене в гости и наши первые совместные фото","p":["5606577510a972c313c5235863379d25","fccfc44155d35ef278c68b013ec177d0"]},{"d":"2026-04-05","c":"Эта мы с тобой такие пупсы паехали гулять в \"Я люблю мій парк\" и тада била дуже холадна","p":["cc5b65c650f4652fb6232ba65621f58c","ee29d1fb3ac8a921aecb40bf8b9cbae2","abd6709392849131f987c589fb6019b0"]},{"d":"2026-05-16","c":"А це мы в парке Киото и ты така типа иба чотко","p":["b47f1940bad4830dbbe8105144f06802"]},{"d":"2026-05-23","c":"Эта мы с табой крутие в зоопарке (на последнем фото тоже са мной, там нема отличий)","p":["0ffa2b822135f9853150400b6f81b1cb","d08b4e98693cf9169c748be6b56beb1a","7208900de85aca2613a00b43fb6eedbc"]},{"d":"2026-05-29","c":"Осьо мы с табой на твоєму випускному з 9 класса и ти нимношка в шоках шо я такой жирний кабанидзе на первом фото","p":["ad62ed0d3fb162752d3b2d0cb72e85e8","9950c320c664363ff63362d9a13738b4","0424053edf2af6e1a192f365f0e1bc2c","4ec38d14eb058e6e8c660277481d79ae"]},{"d":"2026-06-21","c":"Це ми пашли с тобой на ту крутую гору на Лукьяновке и такие типа иба чотко и сабульбуль пальчик вверх","p":["a8c3970da160de7b5ac7243a987794ca","0226ce5396cea2ddd461b03853a644a5","996770bd349b16e5e0872e3168b3b7e4","290fbae6475c211b07ba8a013d60d224"]},{"d":"2026-07-17","c":"Эта ми тут с тобой таки дви охайошки","p":["d9e0d5b7e474f2ed0fbca63cedba57f3","7235dc76371dc81179a1d4e06f41a5d3"]},{"d":"2026-08-05","c":"Це ми с табой пашли на рибок пагледеть шо там как ани паживают","p":["6197c298103fe66b95adebd4f484d23a","d8feb8964a95e5a11fd3a4fc155d02ec","e6b4471bc16a13d9b71e0d9f061f380d"]},{"d":"2026-08-27","c":"Эта ми паехали к бабушке и кушали патом самую вкусную картопельку","p":["bd2b4bf6c9f82f567a6aa896e3bba3b9","c6b409856665f56e084ca24661b20414","8d35f6612bb643f79eacff96daeecda4"]},{"d":"2026-08-31","c":"Эта ми газуем на фуникулере в паследний день лета разбитие карабли заброшенний берег каторый любили ми","p":["71fb930889abfe2fa474debbcfe198d7","afc415fbfae4da9ae4faf1773e8d9849"]},{"d":"2026-09-16","c":"Эта ми ехали в кафе к тваим браткам и сьострам (котятам якщо що) и ти мени факи тичеш","p":["8ffd4c7571f19847be1e3000d9f46fdc"]},{"d":"2026-10-30","c":"Эта ми пачти папали на кришу и сначала ти мне тичеш факи, а я такой типа палучай нигадяйка и после етава ми с табой цилуемся як кисаньки","p":["c4c70a98bbeb32c032990d6fda1a777b","e4aaabe77e68edd1123a5a6e7c297224"]},{"d":"2026-10-31","c":"А тут на фота самая красивая девачка в мире и какой та жирный вася","p":["268ad75d9fb3fa27e4ed8ea9f941a428"]},{"d":"2026-11-14","c":"Туто мы паехали с маими родителями пакушат, а патом погазовали на майдан и я такой типа ивасик телесик, а ты найгарніша дівчинка в світі","p":["d8fe122cb391102150b109a98463c70a","e216417a40e28d897876390739902d14","42f499d3801284d42d41db9f8839837e","6f7feac2a25a3370cd85637e50103e44"]}],"intro":{"x":"Любимасть мая, дякую тоби велике за эти 9 месяцев шо мы зустричаемось, я тебе дуже дуже сильна люблю, ты в мене сама найкраща, сама прекрасна, сама умна и сама миленька дивчинка в свити, я підготував невелику фота подборку з жоскімі фоткамі за ці наші 9 месяцов, пріятного просмотра, мая любов."}}</script>
+<script>
+const SRC="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+const $=id=>document.getElementById(id);
+const S=JSON.parse($("data").textContent);S.intro=S.intro||{x:""};
+let edit=false,can=false,art=null,assets=null,dirty=false,lb={g:0,k:0},idx=0;
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=d=>{if(!d)return"";const t=new Date(d+"T00:00:00");return isNaN(t)?d:t.toLocaleDateString("ru-RU",{day:"numeric",month:"long",year:"numeric"})};
+const st=t=>{$("st").textContent=t};
+function go(d){
+  const n=S.groups.length+1,i=idx+d;
+  if(i<0||i>=n)return;
+  idx=i;$("slide").style.setProperty("--dx",(d>0?"40px":"-40px"));
+  try{history.replaceState(null,"","#"+(idx+1))}catch(e){}
+  render();window.scrollTo(0,0);
+}
+function render(){
+  const n=S.groups.length+1;
+  $("slide").style.display=edit?"none":"block";
+  $("list").style.display=edit?"block":"none";
+  $("pager").style.display=!edit&&n>1?"flex":"none";
+  $("newwrap").style.display=edit?"block":"none";
+  $("bar").style.display=edit?"flex":"none";
+  $("fab").style.display=can&&!edit?"block":"none";
+  if(!edit){
+    idx=Math.max(0,Math.min(idx,n-1));
+    $("pg").textContent=(idx+1)+" / "+n;
+    $("gp").disabled=idx===0;$("gn").disabled=idx===n-1;
+    if(idx===0){$("slide").innerHTML=`<div class="g intro"><p>${esc(S.intro.x)||"Скоро здесь появятся тёплые слова"}</p></div>`;return}
+    const g=S.groups[idx-1],c=g.p.length;
+    $("slide").innerHTML=`<div class="g"><div class="ph c${Math.min(c,2)}">${g.p.map((id,k)=>`<img src="/_blob/${id}" alt="" data-k="${k}"${c>2&&c%2&&k===0?' class="w"':""}>`).join("")}</div>
+    ${g.d||g.c?`<div class="cap">${g.d?`<b>${esc(fmt(g.d))}</b>`:""}${g.c?`<p>${esc(g.c)}</p>`:""}</div>`:""}</div>`;
+    $("pg").textContent=(idx+1)+" / "+n;
+    $("gp").disabled=idx===0;$("gn").disabled=idx===n-1;
+    return;
+  }
+  $("list").innerHTML=`<article class="g"><div class="ed"><b class="il">Первая страница</b><textarea data-intro="1" placeholder="Напиши тёплые слова для неё…">${esc(S.intro.x)}</textarea></div></article>`+S.groups.map((g,i)=>`
+    <article class="g"><div class="th">${g.p.map((id,k)=>`<div><img src="/_blob/${id}" alt=""><button class="x" data-g="${i}" data-k="${k}">×</button></div>`).join("")}</div>
+    <div class="ed"><input type="date" data-g="${i}" data-f="d" value="${esc(g.d)}"><textarea data-g="${i}" data-f="c" placeholder="Подпись к этим фото">${esc(g.c)}</textarea>
+    <div class="row"><label>+ Фото<input type="file" accept="image/*" multiple hidden data-addg="${i}"></label><button data-up="${i}">↑</button><button data-dn="${i}">↓</button><button data-dg="${i}">Удалить</button></div></div></article>`).join("");
+}
+function showLb(){
+  const g=S.groups[lb.g],n=g.p.length;
+  $("lbpic").innerHTML=`<img src="/_blob/${g.p[lb.k]}" alt="">`;
+  $("lbcap").textContent=[n>1?(lb.k+1)+" / "+n:"",g.c].filter(Boolean).join(" · ");
+  $("prev").style.display=$("next").style.display=n>1?"block":"none";
+  $("lb").classList.add("show");
+}
+function lbGo(d){const n=S.groups[lb.g].p.length;lb.k=(lb.k+d+n)%n;showLb()}
+document.addEventListener("click",e=>{
+  const t=e.target,D=t.dataset||{};
+  if(t.id==="gp")return go(-1);
+  if(t.id==="gn")return go(1);
+  if(t.id==="prev")return lbGo(-1);
+  if(t.id==="next")return lbGo(1);
+  if(t.id==="cl"||t.id==="lb")return $("lb").classList.remove("show");
+  if(!edit){if(t.tagName==="IMG"&&D.k!=null&&t.closest("#slide")){lb={g:idx-1,k:+D.k};showLb()}return}
+  if(t.classList.contains("x")){S.groups[+D.g].p.splice(+D.k,1);if(!S.groups[+D.g].p.length)S.groups.splice(+D.g,1);dirty=true;render()}
+  else if(D.dg!=null&&confirm("Удалить всю группу?")){S.groups.splice(+D.dg,1);dirty=true;render()}
+  else if(D.up!=null&&+D.up>0){const i=+D.up;[S.groups[i-1],S.groups[i]]=[S.groups[i],S.groups[i-1]];dirty=true;render()}
+  else if(D.dn!=null&&+D.dn<S.groups.length-1){const i=+D.dn;[S.groups[i+1],S.groups[i]]=[S.groups[i],S.groups[i+1]];dirty=true;render()}
+});
+function swipe(el,fn){
+  let x=null,y=null;
+  el.addEventListener("touchstart",e=>{x=e.touches[0].clientX;y=e.touches[0].clientY},{passive:true});
+  el.addEventListener("touchend",e=>{
+    if(x==null)return;
+    const dx=e.changedTouches[0].clientX-x,dy=e.changedTouches[0].clientY-y;x=null;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)fn(dx<0?1:-1);
+  },{passive:true});
+}
+swipe($("slide"),go);
+swipe($("lb"),lbGo);
+document.addEventListener("keydown",e=>{
+  const k=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;
+  if(e.key==="Escape")$("lb").classList.remove("show");
+  if(!k||edit||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
+  $("lb").classList.contains("show")?lbGo(k):go(k);
+});
+document.addEventListener("input",e=>{
+  const D=e.target.dataset;if(D&&D.intro){S.intro.x=e.target.value;dirty=true}else if(D&&D.f){S.groups[+D.g][D.f]=e.target.value;dirty=true}
+});
+async function shrink(f){
+  try{const b=await createImageBitmap(f);const s=Math.min(1,1400/Math.max(b.width,b.height));
+    const c=document.createElement("canvas");c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);
+    c.getContext("2d").drawImage(b,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(r,"image/jpeg",.82));
+  }catch(e){return f}
+}
+document.addEventListener("change",async e=>{
+  const t=e.target,isNew=t.id==="newg",add=t.dataset&&t.dataset.addg;
+  if(!isNew&&add==null)return;
+  const files=[...t.files],ids=[];let n=0;
+  for(const f of files){
+    st("Загружаю фото "+(++n)+" из "+files.length+"…");
+    try{const r=await assets.upload(await shrink(f));ids.push(r.id)}
+    catch(err){st("Не удалось загрузить фото: "+((err&&(err.message||err.code))||""))}
+  }
+  if(!ids.length)return;
+  if(isNew)S.groups.push({d:new Date(files[0].lastModified).toISOString().slice(0,10),c:"",p:ids});
+  else S.groups[+add].p.push(...ids);
+  dirty=true;st("Не забудь нажать «Сохранить»");render();
+  if(isNew)window.scrollTo(0,document.body.scrollHeight);
+});
+$("fab").onclick=()=>{edit=true;render()};
+$("exit").onclick=()=>{if(dirty&&!confirm("Есть несохранённые изменения. Выйти без сохранения?"))return;edit=false;render()};
+$("save").onclick=async()=>{
+  st("Сохраняю…");
+  const json=JSON.stringify(S).replace(/</g,"\\u003c");
+  const html=SRC.replace(/(<script type="application\/json" id="data">)[\s\S]*?(<\/script>)/,(m,a,b)=>a+json+b);
+  try{await art.publish(html);dirty=false;st("Сохранено ✓")}
+  catch(err){st(err&&err.code==="conflict"?"Страница изменилась: обнови её и повтори":"Не удалось сохранить: "+((err&&(err.message||err.code))||""))}
+};
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+const h=parseInt((location.hash||"").slice(1),10);
+if(h>=1)idx=h-1;
+render();
+(async()=>{
+  try{
+    if(!window.claude)return;
+    const u=await claude.use("user");art=await claude.use("artifact");assets=await claude.use("assets");
+    can=!!(u&&u.isOwner()&&art&&assets);render();
+  }catch(e){}
+})();
+</script></body></html>
